@@ -26,7 +26,8 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
         if (imm & (1 << 11)) {
             imm |= 0xFFFFF000;
         }
-        switch (opcode) {
+        // TODO: Handle exits
+        switch (opcode) { // TODO: Add upper immideate AUIPC
             case 0b0010011: 
                 switch (funct3) {
                     case 0b000: // addi
