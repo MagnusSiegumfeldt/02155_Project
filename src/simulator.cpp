@@ -2,7 +2,7 @@
 
 
 
-std::array<uint32_t, 32> Simulator::run(std::ifstream& rf) {
+std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
     uint32_t pc = 0;
     std::array<uint32_t, 32> reg = std::array<uint32_t, 32>();
 
@@ -18,6 +18,7 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf) {
         uint32_t rs1 = (instr >> 15) & 0x01f;
         uint32_t rs2 = (instr >> 20) & 0x01f;
         uint32_t imm = (instr >> 20);
+        uint32_t uimm = (instr >> 12);
         uint32_t funct3 = (instr >> 12) & 0x7;
         uint32_t funct7 = (instr >> 25);
 
@@ -95,12 +96,13 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf) {
                         reg[rd] = reg[rs1] ^ reg[rs2];
                         break;
                     case 0b101: 
+                        reg[rd] = 0;
                         switch (funct7) {
-                            case 0000000: // srl
+                            case 0b0000000: // srl
                                 reg[rd] = reg[rs1] >> reg[rs2];
                                 break;
                             
-                            case 0100000: // sra
+                            case 0b0100000: // sra
                                 reg[rd] = ((int32_t) reg[rs1]) >> reg[rs2];
                                 break;
                         }
@@ -113,6 +115,8 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf) {
                         break;
                 }
                 break;
+            case 0b0110111: // lui
+                reg[rd] = ((int32_t) uimm) << 12;
             case 0b1110011: // ecall
                 if (reg[17] == 10) {
                     return reg;
@@ -129,10 +133,13 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf) {
             break;
         }*/
 
-        /*for (size_t i(0); i < reg.size(); ++i) {
-            std::cout << reg[i] << " ";
+        if (print_reg) {
+            for (int i = 0; i < reg.size(); i++) {
+                std::cout << reg[i] << " ";
+            }
+            std::cout << std::endl;    
         }
-        std::cout << std::endl;*/
+        
     }
 
     /*std::cout << "Program exit" << std::endl;

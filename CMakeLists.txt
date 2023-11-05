@@ -26,7 +26,7 @@ set(TEST_FILES ${TEST_FILES}
 )
 
 #add_executable(isasim simulator.cpp simulator.h ${SRCS_COMMON} ${HDRS})
-add_executable(isasim src/main.cpp ${IMPL_FILES})
+add_executable(main src/main.cpp ${IMPL_FILES})
 add_subdirectory(src/lib/Catch2)
 
 set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)

@@ -13,7 +13,7 @@ TEST_CASE("Part 4 - t1") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -32,7 +32,7 @@ TEST_CASE("Part 4 - t2") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -52,7 +52,7 @@ TEST_CASE("Part 4 - t3") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -72,7 +72,7 @@ TEST_CASE("Part 4 - t4") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -92,7 +92,7 @@ TEST_CASE("Part 4 - t5") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -112,7 +112,7 @@ TEST_CASE("Part 4 - t6") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -132,7 +132,7 @@ TEST_CASE("Part 4 - t7") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -152,7 +152,7 @@ TEST_CASE("Part 4 - t8") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -172,7 +172,7 @@ TEST_CASE("Part 4 - t9") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -192,7 +192,7 @@ TEST_CASE("Part 4 - t10") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -212,7 +212,7 @@ TEST_CASE("Part 4 - t11") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -232,7 +232,7 @@ TEST_CASE("Part 4 - t12") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -252,7 +252,7 @@ TEST_CASE("Part 4 - t13") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -272,7 +272,7 @@ TEST_CASE("Part 4 - t14") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -292,7 +292,7 @@ TEST_CASE("Part 4 - t15") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;

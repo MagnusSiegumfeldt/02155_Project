@@ -6,6 +6,6 @@
 
 class Simulator {
 public:
-    static std::array<uint32_t, 32> run(std::ifstream&);
+    static std::array<uint32_t, 32> run(std::ifstream&, bool);
 
 };

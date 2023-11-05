@@ -13,7 +13,7 @@ TEST_CASE("Part 2 - Branchcnt") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -31,7 +31,7 @@ TEST_CASE("Part 2 - Branchmany") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -49,7 +49,7 @@ TEST_CASE("Part 2 - Branchtrap") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;

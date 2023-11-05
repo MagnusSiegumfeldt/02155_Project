@@ -13,7 +13,7 @@ TEST_CASE("Part 1 - Addlarge") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -31,7 +31,7 @@ TEST_CASE("Part 1 - Addneg") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -49,7 +49,7 @@ TEST_CASE("Part 1 - Addpos") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -67,7 +67,7 @@ TEST_CASE("Part 1 - Bool") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -86,7 +86,7 @@ TEST_CASE("Part 1 - Set") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -104,7 +104,7 @@ TEST_CASE("Part 1 - Shift") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
@@ -122,7 +122,7 @@ TEST_CASE("Part 1 - Shift2") {
         REQUIRE(false);
     }
     
-    std::array<uint32_t, 32> reg = Simulator::run(binary);
+    std::array<uint32_t, 32> reg = Simulator::run(binary, true);
     
     for (int i = 0; i < 32; i++) {
         uint32_t val;
