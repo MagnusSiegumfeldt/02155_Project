@@ -7,11 +7,11 @@
 #define NO_ERR 0;
 
 int main(void) {
-    std::ifstream rf("../test/test_cases/task1/shift2.bin", std::ios::in | std::ios::binary);
-    if(!rf) {
+    std::ifstream binary("../test/test_cases/task1/addneg.bin", std::ios::in | std::ios::binary);
+    if(!binary) {
         std::cout << "Cannot open file!" << std::endl;
         return 1;
     }
-    Simulator::run(rf, true);
+    Simulator::run(binary, true);
     return NO_ERR;
 }

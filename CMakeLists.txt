@@ -23,6 +23,7 @@ set(TEST_FILES ${TEST_FILES}
     test/task2_tests.cpp
     test/task3_tests.cpp
     test/task4_tests.cpp
+    test/instruction_tests.cpp
 )
 
 #add_executable(isasim simulator.cpp simulator.h ${SRCS_COMMON} ${HDRS})

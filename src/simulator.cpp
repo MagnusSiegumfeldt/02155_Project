@@ -118,9 +118,10 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
                 break;
             case 0b0110111: // lui
                 reg[rd] = ((int32_t) uimm) << 12;
+                break;
             case 0b1110011: // ecall
                 if (reg[17] == 10) {
-                    return reg;
+                    //return reg;
                 }
                 break;
             default:
