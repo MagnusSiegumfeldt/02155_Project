@@ -7,7 +7,7 @@
 #define NO_ERR 0;
 
 int main(void) {
-    std::ifstream binary("../test/test_cases/task1/addneg.bin", std::ios::in | std::ios::binary);
+    std::ifstream binary("../test.bin", std::ios::in | std::ios::binary);
     if(!binary) {
         std::cout << "Cannot open file!" << std::endl;
         return 1;
