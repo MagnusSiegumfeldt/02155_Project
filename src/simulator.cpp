@@ -1,11 +1,10 @@
 #include "simulator.h"
 
 
-
 std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
     uint32_t pc = 0;
-    std::array<uint32_t, 32> reg = std::array<uint32_t, 32>();
-    //Register reg = Register(); 
+    
+    Register reg = Register(); 
     std::array<uint8_t, 1048576> mem = std::array<uint8_t, 1048576>();
 
     std::vector<uint32_t> instructions;
@@ -17,12 +16,9 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
         counter++;
     }
 
-
     //Simulation loop
     while (true) { // Todo: comeback
         uint32_t instr = (uint32_t) mem[pc] | ((uint32_t) mem[pc + 1] << 8) | ((uint32_t) mem[pc + 2] << 16) | ((uint32_t) mem[pc + 3] << 24);
-
-        //std::cout << "PC: " << pc << ", instr: " << instr << std::endl;
 
         printf("PC: %03x, instr: %08x \n", pc, instr);
 
@@ -41,7 +37,6 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
         uint32_t funct3 = (instr >> 12) & 0x7;
         uint32_t funct7 = (instr >> 25);
 
-
         // extend with 1's if necessary.
         if (i_imm & (1 << 11)) {
             i_imm |= 0xFFFFF000;
@@ -57,62 +52,61 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
         }
 
         bool branch_flag = false;
-        // TODO: Handle exits
         switch (opcode) {
             case 0b0000011:
                 switch(funct3){
                     case 0b000: // lb
                         {
-                            uint32_t byte = (uint32_t) mem[reg[rs1] + i_imm];
+                            uint32_t byte = (uint32_t) mem[reg.get(rs1) + i_imm];
                             if (byte & (1 << 7)) { // sign ext.
                                 byte |= 0xFFFFFF00;
                             }
-                            reg[rd] = byte;
+                            reg.set(rd, byte);
                         }
                         break;
                 
                     case 0b001: //lh
                         {
-                            uint32_t byte1 = (uint32_t) mem[reg[rs1] + i_imm];
-                            uint32_t byte2 = (uint32_t) mem[reg[rs1] + i_imm + 1] << 8;
+                            uint32_t byte1 = (uint32_t) mem[reg.get(rs1) + i_imm];
+                            uint32_t byte2 = (uint32_t) mem[reg.get(rs1) + i_imm + 1] << 8;
                             uint32_t word = byte1 | byte2;
                             if (word & (1 << 15)) {
                                 word |= 0xFFFF0000;
                             }
-                            reg[rd] = word;
+                            reg.set(rd, word);
                         }
                         break;
                     
                     case 0b010: // lw
                         {
-                            uint32_t byte1 = (uint32_t) mem[reg[rs1] + i_imm];
-                            uint32_t byte2 = (uint32_t) mem[reg[rs1] + i_imm + 1] << 8;
-                            uint32_t byte3 = (uint32_t) mem[reg[rs1] + i_imm + 2] << 16;
-                            uint32_t byte4 = (uint32_t) mem[reg[rs1] + i_imm + 3] << 24;
-                            reg[rd] = byte1 | byte2 | byte3 | byte4;
+                            uint32_t byte1 = (uint32_t) mem[reg.get(rs1) + i_imm];
+                            uint32_t byte2 = (uint32_t) mem[reg.get(rs1) + i_imm + 1] << 8;
+                            uint32_t byte3 = (uint32_t) mem[reg.get(rs1) + i_imm + 2] << 16;
+                            uint32_t byte4 = (uint32_t) mem[reg.get(rs1) + i_imm + 3] << 24;
+                            reg.set(rd, byte1 | byte2 | byte3 | byte4);
                         }
                         break;
 
                     case 0b100: // lbu
                         {
-                            uint32_t byte = (uint32_t) mem[reg[rs1] + i_imm];
-                            reg[rd] = byte;
+                            uint32_t byte = (uint32_t) mem[reg.get(rs1) + i_imm];
+                            reg.set(rd, byte);
                         }
                         break;
                     case 0b101: // lhu
                         {
-                            uint32_t byte1 = (uint32_t) mem[reg[rs1] + i_imm];
-                            uint32_t byte2 = (uint32_t) mem[reg[rs1] + i_imm + 1] << 8;
-                            reg[rd] = byte1 | byte2;
+                            uint32_t byte1 = (uint32_t) mem[reg.get(rs1) + i_imm];
+                            uint32_t byte2 = (uint32_t) mem[reg.get(rs1) + i_imm + 1] << 8;
+                            reg.set(rd, byte1 | byte2);
                         }
                         break;
                     case 0b110: // lwu
                         {
-                            uint32_t byte1 = (uint32_t) mem[reg[rs1] + i_imm];
-                            uint32_t byte2 = (uint32_t) mem[reg[rs1] + i_imm + 1] << 8;
-                            uint32_t byte3 = (uint32_t) mem[reg[rs1] + i_imm + 2] << 16;
-                            uint32_t byte4 = (uint32_t) mem[reg[rs1] + i_imm + 3] << 24;
-                            reg[rd] = byte1 | byte2 | byte3 | byte4;
+                            uint32_t byte1 = (uint32_t) mem[reg.get(rs1) + i_imm];
+                            uint32_t byte2 = (uint32_t) mem[reg.get(rs1) + i_imm + 1] << 8;
+                            uint32_t byte3 = (uint32_t) mem[reg.get(rs1) + i_imm + 2] << 16;
+                            uint32_t byte4 = (uint32_t) mem[reg.get(rs1) + i_imm + 3] << 24;
+                            reg.set(rd, byte1 | byte2 | byte3 | byte4);
                         }
                         break;
                 }
@@ -120,94 +114,90 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
             case 0b0010011: 
                 switch (funct3) {   
                     case 0b000: // addi
-                        if (rd != 0) {
-                            reg[rd] = reg[rs1] + i_imm;
-                        }
+                        reg.set(rd, reg.get(rs1) + i_imm);
                         break;
 
                     case 0b001: //slli
-                        reg[rd] = reg[rs1] << i_imm;
+                        reg.set(rd, reg.get(rs1) << i_imm);
                         break;
 
                     case 0b010: //slti
-                        reg[rd] = (int32_t) reg[rs1] < (int32_t) i_imm;
+                        reg.set(rd, (int32_t) reg.get(rs1) < (int32_t) i_imm);
                         break;
 
                     case 0b011: //sltiu
-                        reg[rd] = reg[rs1] < i_imm;
+                        reg.set(rd, reg.get(rs1) < i_imm); 
                         break;
 
                     case 0b100: // xori
-                        reg[rd] = reg[rs1] ^ i_imm;
+                        reg.set(rd, reg.get(rs1) ^ i_imm);
                         break;
 
                     case 0b101: 
                         switch (funct7) {
                             case 0b0000000: //srli
-                                reg[rd] = reg[rs1] >> i_imm;
+                                reg.set(rd, reg.get(rs1) >> i_imm);
                                 break;
                             
                             case 0b0100000: //srai
-                                reg[rd] = (int32_t) reg[rs1] >> i_imm;
+                                reg.set(rd, (int32_t) reg.get(rs1) >> i_imm);
                                 break;
                         }
                         break;
 
                     case 0b110: //ori
-                        reg[rd] = reg[rs1] | i_imm;
+                        reg.set(rd, reg.get(rs1) | i_imm);
                         break;
 
                     case 0b111: //andi
-                        reg[rd] = reg[rs1] & i_imm;
+                        reg.set(rd, reg.get(rs1) & i_imm);
                         break;
                 }
                 break;
             case 0b0010111: // auipc
-                reg[rd] = pc + u_imm;
+                reg.set(rd, pc + u_imm);
                 break;
             case 0b0110011: 
                 switch (funct3) {
                     case 0b000:
                         switch (funct7) {
                             case 0b0000000: // add
-                                if (rd != 0) {
-                                    reg[rd] = reg[rs1] + reg[rs2];    
-                                }
+                                reg.set(rd, reg.get(rs1) + reg.get(rs2));
                                 break;
                             case 0b0100000: // sub
-                                reg[rd] = reg[rs1] - reg[rs2];
+                                reg.set(rd, reg.get(rs1) - reg.get(rs2));
                                 break;
                         }
                         break;
-                    case 0b001: // sll // TODO: negative numbers (uint32_t??)??
-                        reg[rd] = reg[rs1] << reg[rs2];
+                    case 0b001: // sll
+                        reg.set(rd, reg.get(rs1) << reg.get(rs2));
                         break;
                     case 0b010: // slt
-                        reg[rd] = (int32_t) reg[rs1] < (int32_t) reg[rs2];
+                        reg.set(rd, (int32_t) reg.get(rs1) < (int32_t) reg.get(rs2));
                         break;
                     case 0b011: // sltu
-                        reg[rd] = reg[rs1] < reg[rs2];
+                        reg.set(rd, reg.get(rs1) < reg.get(rs2));
                         break;
                     case 0b100: // xor
-                        reg[rd] = reg[rs1] ^ reg[rs2];
+                        reg.set(rd, reg.get(rs1) ^ reg.get(rs2));
                         break;
                     case 0b101: 
-                        reg[rd] = 0;
+                        reg.set(rd, 0);
                         switch (funct7) {
                             case 0b0000000: // srl
-                                reg[rd] = reg[rs1] >> reg[rs2];
+                                reg.set(rd, reg.get(rs1) >> reg.get(rs2));
                                 break;
                             
                             case 0b0100000: // sra
-                                reg[rd] = ((int32_t) reg[rs1]) >> reg[rs2];
+                                reg.set(rd, ((int32_t) reg.get(rs1)) >> reg.get(rs2));
                                 break;
                         }
                         break;
                     case 0b110: // or
-                        reg[rd] = reg[rs1] | reg[rs2];
+                        reg.set(rd, reg.get(rs1) | reg.get(rs2));
                         break;
                     case 0b111: // and
-                        reg[rd] = reg[rs1] & reg[rs2];
+                        reg.set(rd, reg.get(rs1) & reg.get(rs2));
                         break;
                 }
                 break;
@@ -215,62 +205,61 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
             case 0b0100011: 
                 switch(funct3) {
                     case 0b000: //sb 
-                        mem[reg[rs1] + s_imm] = (uint8_t) reg[rs2];
+                        mem[reg.get(rs1) + s_imm] = (uint8_t) reg.get(rs2);
                         break;
                     
                     case 0b001: //sh
-                        mem[reg[rs1] + s_imm] = (uint8_t) reg[rs2];
-                        mem[reg[rs1] + s_imm + 1] = (uint8_t) (reg[rs2] >> 8);
-                        std::cout << "Put " << unsigned((uint8_t) reg[rs2]) << " into " << reg[rs1] + s_imm << " and put "<<unsigned((uint8_t) (reg[rs2] >> 8)) << " into " << reg[rs1] + s_imm + 1 << std::endl;
+                        mem[reg.get(rs1) + s_imm] = (uint8_t) reg.get(rs2);
+                        mem[reg.get(rs1) + s_imm + 1] = (uint8_t) (reg.get(rs2) >> 8);
                         break;
 
                     case 0b010: //sw
-                        mem[reg[rs1] + s_imm] = (uint8_t) reg[rs2];
-                        mem[reg[rs1] + s_imm + 1] = (uint8_t) (reg[rs2] >> 8);
-                        mem[reg[rs1] + s_imm + 2] = (uint8_t) (reg[rs2] >> 16);
-                        mem[reg[rs1] + s_imm + 3] = (uint8_t) (reg[rs2] >> 24);
+                        mem[reg.get(rs1) + s_imm] = (uint8_t) reg.get(rs2);
+                        mem[reg.get(rs1) + s_imm + 1] = (uint8_t) (reg.get(rs2) >> 8);
+                        mem[reg.get(rs1) + s_imm + 2] = (uint8_t) (reg.get(rs2) >> 16);
+                        mem[reg.get(rs1) + s_imm + 3] = (uint8_t) (reg.get(rs2) >> 24);
                         break;
                 }
                 break;
             
             
             case 0b0110111: // lui
-                reg[rd] = u_imm;
+                reg.set(rd, u_imm);
                 break;
             case 0b1100011:
                 switch(funct3) {
                     case 0b000: // beq
-                        if (reg[rs1] == reg[rs2]) {
+                        if (reg.get(rs1) == reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }
                         break;
                     case 0b001: // bne
-                        if (reg[rs1] != reg[rs2]) {
+                        if (reg.get(rs1) != reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }
                         break;
                     case 0b100: // blt
-                        if((int32_t) reg[rs1] < (int32_t) reg[rs2]) {
+                        if((int32_t) reg.get(rs1) < (int32_t) reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }
                         break;
                     case 0b101: // bge
-                        if((int32_t) reg[rs1] >= (int32_t) reg[rs2]) {
+                        if((int32_t) reg.get(rs1) >= (int32_t) reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }    
                         break;
                     case 0b110: // bltu
-                        if(reg[rs1] < reg[rs2]) {
+                        if(reg.get(rs1) < reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }    
                         break;
                     case 0b111: // bgeu
-                        if(reg[rs1] >= reg[rs2]) {
+                        if(reg.get(rs1) >= reg.get(rs2)) {
                             pc += b_imm;
                             branch_flag = true;
                         }
@@ -278,29 +267,23 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
                 }
                 break;
             case 0b1100111: // jalr
-                if (rd != 0) {
-                    reg[rd] = pc + 4;
-                }
-                pc = reg[rs1] + i_imm;
+                reg.set(rd, pc + 4);
+                pc = reg.get(rs1) + i_imm;
                 branch_flag = true;
                 break;
             case 0b1101111: // jal
-                if (rd != 0) {
-                    reg[rd] = pc + 4;
-                }
+                reg.set(rd, pc + 4);
                 pc += j_imm;
                 branch_flag = true;
                 break;
             case 0b1110011: // ecall // TODO : Some of these are missing
-                std::cout << "in ecall" << std::endl;
-                if (reg[17] == 10 || reg[10] == 10) {
-                    std::cout << "exiting" << std::endl;
-                    return reg;
+                if (reg.get(17) == 10 || reg.get(10) == 10) {
+                    return reg.get();
                 }
                 break;
             default:
                 std::cout << "Opcode " << opcode << " not yet implemented" << std::endl;
-                return reg;
+                return reg.get();
                 break;
         }
 
@@ -308,23 +291,15 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
             pc += 4; // One instruction is four bytes
         }
 
-        /*if ((pc >> 2) >= progr.size()) { // TODO: Consider this
-            break;
-        }*/
-
         if (print_reg) {
             for (int i = 0; i < reg.size(); i++) {
-                std::cout << reg[i] << " ";
+                std::cout << reg.get(i) << " ";
             }
             std::cout << std::endl;    
         }
         
     }
 
-    /*std::cout << "Program exit" << std::endl;
-    for (size_t i(0); i < reg.size(); ++i) {
-        std::cout << reg[i] << " ";
-    }*/
-    return reg;
+    return reg.get();
 }
 
