@@ -17,4 +17,17 @@ public:
         return reg;
     }
 
+    void print() {
+        for (int i = 0; i < this->size() / 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    std::cout << std::dec << "x" <<  i * 4 + j ;
+                    if (i * 4 + j < 10)
+                        std::cout << " ";
+                    std::cout << " = 0x" << std::hex << std::setfill('0') << std::setw(8) <<  this->get(i * 4 + j) << ",\t";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl; 
+    }
+
 };

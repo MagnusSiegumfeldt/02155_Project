@@ -1,27 +1,26 @@
 #include "simulator.h"
 
 
-std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
+std::array<uint32_t, 32> Simulator::run(std::ifstream& bin, bool debug) {
     uint32_t pc = 0;
     
     Register reg = Register(); 
     std::array<uint8_t, 1048576> mem = std::array<uint8_t, 1048576>();
 
-    std::vector<uint32_t> instructions;
     int counter = 0;
-    while(!rf.eof()) {
+    while(!bin.eof()) {
         uint8_t byte;
-        rf.read((char *) &byte, sizeof(byte));
-        mem[counter] = byte;
-        counter++;
+        bin.read((char *) &byte, sizeof(byte));
+        mem[counter++] = byte;
     }
 
     //Simulation loop
-    while (true) { // Todo: comeback
+    while (true) {
         uint32_t instr = (uint32_t) mem[pc] | ((uint32_t) mem[pc + 1] << 8) | ((uint32_t) mem[pc + 2] << 16) | ((uint32_t) mem[pc + 3] << 24);
-
-        printf("PC: %03x, instr: %08x \n", pc, instr);
-
+        if (debug) {
+            std::cout << "PC: 0x" << std::hex << std::setfill('0') << std::setw(3) << pc << ", instr: 0x" << std::setw(8) << instr << std::endl; 
+        }
+        
         // Decode the instruction
         uint32_t opcode = instr & 0x7f;
         uint32_t rd = (instr >> 7) & 0x01f;
@@ -276,8 +275,9 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
                 pc += j_imm;
                 branch_flag = true;
                 break;
-            case 0b1110011: // ecall // TODO : Some of these are missing
+            case 0b1110011: // ecall
                 if (reg.get(17) == 10 || reg.get(10) == 10) {
+                    reg.print();  
                     return reg.get();
                 }
                 break;
@@ -291,14 +291,14 @@ std::array<uint32_t, 32> Simulator::run(std::ifstream& rf, bool print_reg) {
             pc += 4; // One instruction is four bytes
         }
 
-        if (print_reg) {
-            for (int i = 0; i < reg.size(); i++) {
-                std::cout << reg.get(i) << " ";
-            }
-            std::cout << std::endl;    
+        if (debug) {
+            reg.print();
         }
         
     }
+    
+    
+        
 
     return reg.get();
 }
