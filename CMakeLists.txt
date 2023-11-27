@@ -2,17 +2,6 @@ cmake_minimum_required(VERSION 3.15)
 
 project(isasim CXX)
 
-
-# Turn on automatic invocation of the MOC, UIC & RCC
-#set(CMAKE_AUTOMOC ON)
-#set(CMAKE_AUTOUIC ON)
-#set(CMAKE_AUTORCC ON)
-
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-
-#file(GLOB SRCS_COMMON src/*.cpp)
-#file(GLOB HDRS src/*.h)
-
 include_directories(include)
 
 set(IMPL_FILES ${IMPL_FILES}
@@ -26,7 +15,6 @@ set(TEST_FILES ${TEST_FILES}
     test/instruction_tests.cpp
 )
 
-#add_executable(isasim simulator.cpp simulator.h ${SRCS_COMMON} ${HDRS})
 add_executable(main src/main.cpp ${IMPL_FILES})
 add_subdirectory(src/lib/Catch2)
 

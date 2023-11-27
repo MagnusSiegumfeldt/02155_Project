@@ -1,15 +1,25 @@
-# Final Assignment CPP Template  
-This template is a simple structure to help you get started with the final project if ever you want to do it in `C++`. The instructions for the assignment remain the same.  
+# 02155 Computer Architecture and Engineering 
+This is a RISC-V instruction set simulator, supporting the RV32I instruction subset. The simulator provides 1048576 bytes of memory and execute RISC-V binary files.
 
-## Structure  
-Please follow the documentation and structure example which you can find in the `src/` folder. This means that your main code should go into `IsaSim.cpp` and the other classes or utility code you might write should go into `src` with extensions in `.cpp` for your source code and `.h` for your headers.  
-  
-## Compiling & Executing  
-With the current template, we have suplied a cmake configuration, so to use it:  
+## Input and Output
+The simulator is run using the static ```Simulator::run```. This method takes the binary file containing the program and a debug-flag. If the debug-flag is set, the simulator outputs program-counter, instruction value, and a register dump for every instruction. After all executions a register dump is printed to stanard out.
+
+Assuming that the ```main``` function is run, a binary result file is dumped in the project root.
+
+## Compiling & Executing
+### Compiling with g++
+The simulator can be compiled *without* tests using g++ by
+```
+g++ src/main.cpp src/simulator.cpp include/register.h include/simulator.h -o main
+```
+Execute by ```./main```
+### Compiling using CMake 
+The complete project including unit tests can be compiled using CMake by 
 ```
 mkdir build
 cd build
 cmake ..
-make
-./isasim
-```  
+cmake --build .
+```
+Execute by ```./main``` or run the tests using ```ctest```.
+
