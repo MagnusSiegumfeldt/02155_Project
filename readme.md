@@ -23,3 +23,5 @@ cmake --build .
 ```
 Execute by ```./main``` or run the tests using ```ctest```.
 
+## Tests
+The project include unit-tests for all instructions along with some more advanced tests. The tests are the provided tests, i.e. task1-task4 along with selected tests from [here](https://github.com/TheAIBot/RISC-V_Sim/tree/master/RISC-V_Sim/InstructionTests)
